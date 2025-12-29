@@ -8,14 +8,15 @@
 body {
   font-family: "Georgia", serif;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto; /* Changed to auto to allow scrolling if needed, but page is now 100vh */
   background: #000;
 }
 
 .summer-scene {
   position: relative;
   width: 100%;
-  min-height: 500vh;
+  min-height: 100vh; /* Changed from 500vh to 100vh so everything is visible immediately */
+  height: 100vh;
   background: linear-gradient(
     to bottom,
     #87ceeb 0%,
@@ -816,7 +817,7 @@ body {
 
 @media (max-width: 480px) {
   .summer-scene {
-    min-height: 600vh;
+    min-height: 600vh; /* This media query overrides the main summer-scene height, keeping it scrollable for very small screens if needed. */
   }
   .title {
     font-size: 45px;
