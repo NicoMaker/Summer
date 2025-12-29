@@ -4,56 +4,133 @@
   box-sizing: border-box;
 }
 
-/* Single tall scrollable scene with gradient background */
 body {
-  font-family: "Georgia", serif;
+  font-family: 'Georgia', 'Times New Roman', serif;
   overflow-x: hidden;
-  overflow-y: scroll;
   background: #000;
+  cursor: default;
 }
 
+/* ========================================
+   SUMMER SCENE - CONTAINER PRINCIPALE
+   ======================================== */
 .summer-scene {
   position: relative;
   width: 100%;
-  min-height: 500vh;
+  min-height: 300vh;
   background: linear-gradient(
     to bottom,
     #87ceeb 0%,
-    #b0d4f1 8%,
-    #f4d03f 15%,
-    #ffeaa7 20%,
-    #4a90e2 28%,
-    #2e5090 40%,
-    #1e3a60 55%,
-    #0a1929 70%,
-    #020817 85%,
+    #a8d8f0 4%,
+    #b0e5fc 8%,
+    #ffd89b 13%,
+    #ffe5a0 18%,
+    #fff3cc 22%,
+    #4a9fe8 26%,
+    #3988d8 30%,
+    #3076c8 36%,
+    #2564b8 42%,
+    #1e4d8b 50%,
+    #183d6f 58%,
+    #0d2847 66%,
+    #081b33 74%,
+    #051423 82%,
+    #020c18 88%,
+    #000814 94%,
     #000000 100%
   );
   overflow: hidden;
 }
 
-/* Title */
+/* ========================================
+   SKY GRADIENT OVERLAY
+   ======================================== */
+.sky-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at 50% 10%,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.08) 30%,
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ========================================
+   TITLE - TITOLO ANIMATO PRINCIPALE
+   ======================================== */
 .title {
   position: absolute;
-  top: 15%;
+  top: 10%;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 120px;
-  font-weight: bold;
-  background: linear-gradient(45deg, #ffd700, #ffa500, #ff6b6b, #4ecdc4);
+  text-align: center;
+  z-index: 100;
+  filter: drop-shadow(0 0 60px rgba(255, 215, 0, 0.95)) 
+          drop-shadow(0 15px 40px rgba(0, 0, 0, 0.6));
+}
+
+.title-word {
+  display: inline-block;
+  font-size: clamp(60px, 12vw, 140px);
+  font-weight: 900;
+  background: linear-gradient(
+    45deg,
+    #ffd700,
+    #ffed4e,
+    #ff8c00,
+    #ff6b6b,
+    #ff1493,
+    #00ffff,
+    #4ecdc4,
+    #ffd700
+  );
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: titleGradient 6s ease infinite, titleFloat 4s ease-in-out infinite;
+  margin: 0 clamp(10px, 2vw, 25px);
+  letter-spacing: 3px;
+  text-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
+}
+
+.title-word:nth-child(1) {
+  animation-delay: 0s, 0s;
+}
+
+.title-word:nth-child(2) {
+  animation-delay: 0.3s, 0.7s;
+}
+
+.title-year {
+  display: block;
+  font-size: clamp(35px, 8vw, 70px);
+  font-weight: 900;
+  background: linear-gradient(
+    90deg,
+    #4ecdc4,
+    #00d4ff,
+    #ffd700,
+    #ff6b6b,
+    #4ecdc4
+  );
   background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: titleGlow 5s ease infinite;
-  text-align: center;
-  z-index: 100;
-  filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.6));
+  animation: titleGradient 4s ease infinite, titleBounce 2.5s ease-in-out infinite;
+  margin-top: clamp(5px, 2vw, 15px);
+  letter-spacing: 8px;
 }
 
-@keyframes titleGlow {
-  0%,
-  100% {
+@keyframes titleGradient {
+  0%, 100% {
     background-position: 0% 50%;
   }
   50% {
@@ -61,24 +138,73 @@ body {
   }
 }
 
-/* Sun */
-.sun {
-  position: absolute;
-  top: 5%;
-  right: 10%;
-  font-size: 140px;
-  animation: sunGlow 4s ease-in-out infinite, sunRotate 20s linear infinite;
-  filter: drop-shadow(0 0 60px rgba(255, 220, 100, 0.9));
-  z-index: 50;
-}
-
-@keyframes sunGlow {
-  0%,
-  100% {
-    transform: scale(1);
+@keyframes titleFloat {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
   }
   50% {
-    transform: scale(1.1);
+    transform: translateY(-20px) scale(1.05);
+  }
+}
+
+@keyframes titleBounce {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.12) rotate(2deg);
+  }
+}
+
+/* ========================================
+   SUN - SOLE CON RAGGI
+   ======================================== */
+.sun-container {
+  position: absolute;
+  top: 5%;
+  right: 8%;
+  z-index: 50;
+  transform-origin: center;
+}
+
+.sun {
+  font-size: clamp(80px, 15vw, 160px);
+  display: block;
+  animation: sunPulse 5s ease-in-out infinite, sunRotate 25s linear infinite;
+  filter: drop-shadow(0 0 100px rgba(255, 220, 100, 1)) 
+          drop-shadow(0 0 60px rgba(255, 180, 0, 0.8));
+  transform-origin: center;
+}
+
+.sun-rays {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(180px, 25vw, 250px);
+  height: clamp(180px, 25vw, 250px);
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 215, 0, 0.4) 0%,
+    rgba(255, 180, 0, 0.3) 20%,
+    rgba(255, 140, 0, 0.2) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  animation: raysExpand 4s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes sunPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 100px rgba(255, 220, 100, 1)) 
+            drop-shadow(0 0 60px rgba(255, 180, 0, 0.8));
+  }
+  50% {
+    transform: scale(1.18);
+    filter: drop-shadow(0 0 140px rgba(255, 200, 50, 1)) 
+            drop-shadow(0 0 80px rgba(255, 140, 0, 1));
   }
 }
 
@@ -91,32 +217,62 @@ body {
   }
 }
 
-/* Seagulls */
+@keyframes raysExpand {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.4);
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   SEAGULLS - GABBIANI CON OMBRE
+   ======================================== */
 .seagull {
   position: absolute;
-  font-size: 45px;
-  animation: seagullFly 25s linear infinite;
+  font-size: clamp(30px, 5vw, 50px);
   z-index: 80;
-  filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.6));
+  animation: seagullFly 25s linear infinite;
+}
+
+.seagull-shadow {
+  position: absolute;
+  filter: blur(4px);
+  opacity: 0.25;
+  transform: translateY(6px) translateX(3px);
+}
+
+.seagull-main {
+  position: relative;
+  filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.9)) 
+          drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+  animation: seagullWing 0.6s ease-in-out infinite;
 }
 
 .seagull1 {
   top: 8%;
   left: -100px;
   animation-duration: 20s;
+  animation-delay: 0s;
 }
+
 .seagull2 {
   top: 12%;
   left: -100px;
   animation-duration: 25s;
   animation-delay: 5s;
 }
+
 .seagull3 {
   top: 6%;
   left: -100px;
   animation-duration: 30s;
   animation-delay: 10s;
 }
+
 .seagull4 {
   top: 10%;
   left: -100px;
@@ -130,7 +286,7 @@ body {
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-20px);
+    transform: translateY(-35px);
   }
   100% {
     left: 110%;
@@ -138,147 +294,355 @@ body {
   }
 }
 
-/* Clouds */
+@keyframes seagullWing {
+  0%, 100% {
+    transform: scaleY(1) scaleX(1);
+  }
+  50% {
+    transform: scaleY(0.92) scaleX(1.03);
+  }
+}
+
+/* ========================================
+   CLOUDS - NUVOLE VOLUMETRICHE
+   ======================================== */
+.cloud-container {
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  top: 0;
+  z-index: 40;
+}
+
 .cloud {
   position: absolute;
-  font-size: 100px;
-  animation: cloudMove 40s linear infinite;
-  opacity: 0.7;
-  z-index: 40;
+  animation: cloudFloat 45s linear infinite;
+  opacity: 0.85;
+  display: flex;
+  gap: -25px;
+  filter: drop-shadow(0 8px 25px rgba(255, 255, 255, 0.4));
+}
+
+.cloud span {
+  font-size: clamp(60px, 10vw, 120px);
+  filter: drop-shadow(0 6px 22px rgba(255, 255, 255, 0.6));
+  animation: cloudPuff 3.5s ease-in-out infinite;
+}
+
+.cloud span:nth-child(2) {
+  animation-delay: 0.6s;
+  margin-left: -35px;
+}
+
+.cloud span:nth-child(3) {
+  animation-delay: 1.2s;
+  margin-left: -35px;
 }
 
 .cloud1 {
   top: 3%;
-  left: -150px;
+  left: -250px;
+  animation-delay: 0s;
 }
+
 .cloud2 {
   top: 7%;
-  left: -150px;
+  left: -250px;
   animation-delay: 20s;
 }
 
-@keyframes cloudMove {
+.cloud3 {
+  top: 11%;
+  left: -250px;
+  animation-delay: 35s;
+}
+
+@keyframes cloudFloat {
   0% {
-    left: -150px;
+    left: -250px;
   }
   100% {
     left: 110%;
   }
 }
 
-/* Beach items */
-.beach-item {
+@keyframes cloudPuff {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.95;
+  }
+}
+
+/* ========================================
+   BEACH SECTION - SPIAGGIA PARADISIACA
+   ======================================== */
+.beach-section {
   position: absolute;
   top: 18%;
-  font-size: 90px;
-  animation: beachFloat 3s ease-in-out infinite;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.3));
+  left: 0;
+  width: 100%;
+  height: 12%;
   z-index: 60;
+}
+
+.sand-dunes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 225, 120, 0.35),
+    rgba(255, 200, 80, 0.25)
+  );
+  border-radius: 50%;
+  filter: blur(25px);
+  opacity: 0.8;
+}
+
+.beach-item {
+  position: absolute;
+  font-size: clamp(50px, 8vw, 100px);
+  animation: beachFloat 3.5s ease-in-out infinite;
+  filter: drop-shadow(0 18px 35px rgba(0, 0, 0, 0.45));
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.beach-item:hover {
+  transform: scale(1.25) translateY(-35px) rotate(12deg) !important;
+  filter: drop-shadow(0 25px 45px rgba(255, 215, 0, 0.6)) 
+          drop-shadow(0 0 30px rgba(255, 255, 255, 0.8));
 }
 
 .umbrella {
   left: 10%;
   animation-delay: 0s;
 }
+
 .beach-chair {
   left: 25%;
-  animation-delay: 0.5s;
+  animation-delay: 0.6s;
 }
+
 .palm-tree {
   left: 42%;
-  font-size: 120px;
-  animation-delay: 1s;
+  font-size: clamp(70px, 12vw, 145px);
+  animation-delay: 1.2s;
+  filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.55));
 }
+
 .cocktail {
   left: 60%;
-  animation-delay: 1.5s;
+  animation-delay: 1.8s;
 }
+
 .beach-ball {
   left: 75%;
-  animation-delay: 2s;
+  animation-delay: 2.4s;
 }
+
 .coconut {
   left: 88%;
-  font-size: 70px;
-  animation-delay: 2.5s;
-}
-.watermelon {
-  left: 5%;
-  top: 22%;
+  font-size: clamp(40px, 6vw, 75px);
   animation-delay: 3s;
 }
 
+.watermelon {
+  left: 5%;
+  top: 90px;
+  animation-delay: 3.6s;
+}
+
+.sunglasses {
+  left: 52%;
+  top: 100px;
+  font-size: clamp(40px, 6vw, 75px);
+  animation-delay: 1.5s;
+}
+
 @keyframes beachFloat {
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0px) rotate(0deg);
   }
   50% {
-    transform: translateY(-20px) rotate(5deg);
+    transform: translateY(-28px) rotate(6deg);
   }
 }
 
-/* Waves */
-.wave {
+.beach-sparkle {
+  position: absolute;
+  font-size: clamp(25px, 4vw, 45px);
+  animation: sparkleGlow 2.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 25px rgba(255, 215, 0, 1));
+  pointer-events: none;
+}
+
+.sparkle1 {
+  left: 15%;
+  top: 65px;
+  animation-delay: 0s;
+}
+
+.sparkle2 {
+  left: 55%;
+  top: 45px;
+  animation-delay: 0.8s;
+}
+
+.sparkle3 {
+  left: 80%;
+  top: 75px;
+  animation-delay: 1.6s;
+}
+
+@keyframes sparkleGlow {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.4) rotate(180deg);
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   OCEAN SURFACE - SUPERFICIE OCEANICA
+   ======================================== */
+.ocean-surface {
   position: absolute;
   top: 26%;
   left: 0;
   width: 100%;
-  height: 120px;
-  background: linear-gradient(to bottom, rgba(100, 200, 255, 0.3), rgba(50, 150, 255, 0.5));
-  border-radius: 50% 50% 0 0;
-  animation: waveMove 3s ease-in-out infinite;
+  height: 15%;
   z-index: 30;
+}
+
+.wave {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  background: linear-gradient(
+    to bottom,
+    rgba(120, 210, 255, 0.45),
+    rgba(70, 170, 255, 0.65)
+  );
+  border-radius: 50% 50% 0 0;
+  animation: waveRoll 4.5s ease-in-out infinite;
 }
 
 .wave1 {
   animation-delay: 0s;
-  opacity: 0.5;
-}
-.wave2 {
-  top: 28%;
-  animation-delay: 1s;
-  opacity: 0.6;
-}
-.wave3 {
-  top: 30%;
-  animation-delay: 2s;
-  opacity: 0.7;
+  opacity: 0.65;
 }
 
-@keyframes waveMove {
-  0%,
-  100% {
-    transform: translateX(-50px) scaleY(1);
+.wave2 {
+  top: 25px;
+  animation-delay: 1.5s;
+  opacity: 0.75;
+}
+
+.wave3 {
+  top: 50px;
+  animation-delay: 3s;
+  opacity: 0.85;
+}
+
+@keyframes waveRoll {
+  0%, 100% {
+    transform: translateX(-60px) scaleY(1) scaleX(1);
   }
   50% {
-    transform: translateX(50px) scaleY(1.1);
+    transform: translateX(60px) scaleY(1.2) scaleX(1.08);
   }
 }
 
-/* Boats */
+.wave-foam {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 35px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.7) 50%,
+    transparent 100%
+  );
+  animation: foamMove 6s ease-in-out infinite;
+  opacity: 0.75;
+  filter: blur(2px);
+}
+
+.foam1 {
+  animation-delay: 0s;
+}
+
+.foam2 {
+  animation-delay: 3s;
+}
+
+@keyframes foamMove {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+/* ========================================
+   BOATS - BARCHE CON RIFLESSI
+   ======================================== */
+.boat-container {
+  position: absolute;
+  width: 100%;
+  height: 10%;
+  top: 28%;
+  z-index: 70;
+}
+
 .boat {
   position: absolute;
-  top: 29%;
-  font-size: 80px;
-  animation: boatSail 20s linear infinite, boatRock 2s ease-in-out infinite;
-  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
-  z-index: 70;
+  top: 3%;
+  font-size: clamp(50px, 8vw, 90px);
+  animation: boatSail 22s linear infinite, boatRock 3s ease-in-out infinite;
+}
+
+.boat-icon {
+  display: block;
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.5));
+}
+
+.boat-reflection {
+  display: block;
+  opacity: 0.35;
+  filter: blur(3px);
+  transform: scaleY(-1) translateY(-12px);
 }
 
 .boat1 {
   right: -150px;
-  animation-duration: 18s;
+  animation-duration: 20s, 3s;
+  animation-delay: 0s, 0s;
 }
+
 .boat2 {
   right: -150px;
-  animation-delay: 9s;
-  animation-duration: 22s;
+  animation-duration: 24s, 3s;
+  animation-delay: 10s, 0.5s;
 }
+
 .boat3 {
   right: -150px;
-  animation-delay: 15s;
-  animation-duration: 20s;
+  animation-duration: 22s, 3s;
+  animation-delay: 17s, 1s;
 }
 
 @keyframes boatSail {
@@ -291,49 +655,74 @@ body {
 }
 
 @keyframes boatRock {
-  0%,
-  100% {
-    transform: rotate(-4deg) translateY(0px);
+  0%, 100% {
+    transform: rotate(-6deg) translateY(0px);
   }
   50% {
-    transform: rotate(4deg) translateY(-10px);
+    transform: rotate(6deg) translateY(-18px);
   }
 }
 
-/* Surfers */
+/* ========================================
+   SURFERS - SURFISTI
+   ======================================== */
 .surfer {
   position: absolute;
   top: 32%;
-  font-size: 70px;
-  animation: surferRide 4s ease-in-out infinite;
-  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+  font-size: clamp(45px, 7vw, 80px);
+  animation: surferRide 4.5s ease-in-out infinite;
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.45));
   z-index: 65;
+}
+
+.water-splash {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(25px, 4vw, 45px);
+  animation: splashWave 1.2s ease-in-out infinite;
+  opacity: 0.75;
 }
 
 .surfer1 {
   left: 15%;
   animation-delay: 0s;
 }
+
 .surfer2 {
   left: 50%;
-  animation-delay: 2s;
+  animation-delay: 2.2s;
 }
+
 .surfer3 {
   left: 80%;
-  animation-delay: 1s;
+  animation-delay: 1.1s;
 }
 
 @keyframes surferRide {
-  0%,
-  100% {
-    transform: translateX(0px) rotate(-10deg);
+  0%, 100% {
+    transform: translateX(0px) rotate(-15deg);
   }
   50% {
-    transform: translateX(30px) rotate(10deg);
+    transform: translateX(45px) rotate(15deg);
   }
 }
 
-/* Island */
+@keyframes splashWave {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.3);
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   ISLAND - ISOLA TROPICALE
+   ======================================== */
 .island {
   position: absolute;
   top: 35%;
@@ -342,548 +731,303 @@ body {
   z-index: 75;
 }
 
+.island-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 550px;
+  height: 220px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    ellipse,
+    rgba(255, 215, 0, 0.35) 0%,
+    rgba(255, 180, 0, 0.2) 40%,
+    transparent 75%
+  );
+  animation: islandGlow 5s ease-in-out infinite;
+  z-index: -1;
+  filter: blur(15px);
+}
+
+@keyframes islandGlow {
+  0%, 100% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
 .island-base {
-  width: 400px;
-  height: 180px;
-  background: linear-gradient(135deg, #ffd700, #ffa500, #ff8c00);
+  width: clamp(300px, 50vw, 450px);
+  height: clamp(140px, 20vw, 200px);
+  background: linear-gradient(135deg, #ffd700, #ffb700, #ffa500, #ff8c00);
   border-radius: 50%;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  animation: islandFloat 4s ease-in-out infinite;
+  box-shadow: 
+    0 30px 70px rgba(0, 0, 0, 0.65),
+    inset 0 -25px 50px rgba(255, 140, 0, 0.6);
+  animation: islandFloat 5s ease-in-out infinite;
+  position: relative;
 }
 
 @keyframes islandFloat {
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-20px);
+    transform: translateY(-30px);
   }
 }
 
 .island-palm {
   position: absolute;
-  font-size: 110px;
-  animation: palmSway 3s ease-in-out infinite;
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+  font-size: clamp(70px, 10vw, 120px);
+  animation: palmSway 3.5s ease-in-out infinite;
+  filter: drop-shadow(0 18px 35px rgba(0, 0, 0, 0.55));
 }
 
 .palm1 {
-  top: -120px;
+  top: clamp(-100px, -15vw, -140px);
   left: 50%;
   transform: translateX(-50%);
-  font-size: 130px;
+  font-size: clamp(90px, 13vw, 160px);
   animation-delay: 0s;
 }
+
 .palm2 {
-  top: -100px;
+  top: clamp(-80px, -12vw, -115px);
   left: 20%;
-  animation-delay: 0.5s;
+  animation-delay: 0.6s;
 }
+
 .palm3 {
-  top: -100px;
+  top: clamp(-80px, -12vw, -115px);
   right: 20%;
-  animation-delay: 1s;
+  animation-delay: 1.2s;
 }
 
 @keyframes palmSway {
-  0%,
-  100% {
-    transform: rotate(-5deg);
+  0%, 100% {
+    transform: rotate(-10deg);
   }
   50% {
-    transform: rotate(5deg);
+    transform: rotate(10deg);
   }
 }
 
 .island-crab,
-.island-shell {
+.island-shell,
+.island-flower {
   position: absolute;
-  font-size: 50px;
-  animation: beachCreature 3s ease-in-out infinite;
+  font-size: clamp(30px, 5vw, 55px);
+  animation: beachCreature 3.5s ease-in-out infinite;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.35));
 }
 
 .island-crab {
-  bottom: -10px;
-  left: 30px;
+  bottom: -15px;
+  left: 35px;
+  animation-delay: 0s;
 }
+
 .island-shell {
-  bottom: -10px;
-  right: 30px;
-  animation-delay: 1.5s;
+  bottom: -15px;
+  right: 35px;
+  animation-delay: 1.7s;
+}
+
+.island-flower {
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation-delay: 0.9s;
 }
 
 @keyframes beachCreature {
-  0%,
-  100% {
+  0%, 100% {
     transform: translateX(0px) rotate(0deg);
   }
   50% {
-    transform: translateX(10px) rotate(10deg);
+    transform: translateX(15px) rotate(15deg);
   }
 }
 
-/* Tropical flowers */
+/* ========================================
+   FLOWERS - FIORI TROPICALI
+   ======================================== */
 .flower {
   position: absolute;
   top: 38%;
-  font-size: 60px;
-  animation: flowerSway 2s ease-in-out infinite;
-  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+  font-size: clamp(40px, 6vw, 75px);
+  animation: flowerDance 3.5s ease-in-out infinite;
   z-index: 55;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.flower:hover {
+  transform: scale(1.3) rotate(20deg);
+}
+
+.flower-glow {
+  filter: drop-shadow(0 0 30px rgba(255, 100, 150, 0.9)) 
+          drop-shadow(0 8px 20px rgba(255, 50, 100, 0.5));
+  animation: flowerPulse 2.5s ease-in-out infinite;
 }
 
 .flower1 {
   left: 8%;
   animation-delay: 0s;
 }
+
 .flower2 {
   left: 18%;
-  animation-delay: 0.7s;
+  animation-delay: 0.8s;
 }
+
 .flower3 {
   right: 12%;
-  animation-delay: 1.4s;
+  animation-delay: 1.6s;
 }
+
 .flower4 {
   right: 25%;
-  animation-delay: 2.1s;
+  animation-delay: 2.4s;
 }
 
-@keyframes flowerSway {
-  0%,
-  100% {
-    transform: rotate(-10deg) scale(1);
+.flower5 {
+  left: 50%;
+  top: 40%;
+  animation-delay: 1.2s;
+}
+
+@keyframes flowerDance {
+  0%, 100% {
+    transform: rotate(-15deg) scale(1);
   }
   50% {
-    transform: rotate(10deg) scale(1.1);
+    transform: rotate(15deg) scale(1.2);
   }
 }
 
-/* Dolphins */
+@keyframes flowerPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 30px rgba(255, 100, 150, 0.9)) 
+            drop-shadow(0 8px 20px rgba(255, 50, 100, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 50px rgba(255, 50, 100, 1)) 
+            drop-shadow(0 12px 30px rgba(255, 0, 100, 0.8));
+  }
+}
+
+/* ========================================
+   DOLPHINS - DELFINI
+   ======================================== */
 .dolphin {
   position: absolute;
   top: 43%;
-  font-size: 80px;
-  animation: dolphinJump 8s ease-in-out infinite;
-  filter: drop-shadow(0 5px 15px rgba(100, 200, 255, 0.5));
+  font-size: clamp(55px, 8vw, 95px);
+  animation: dolphinJump 9s ease-in-out infinite;
+  filter: drop-shadow(0 10px 30px rgba(100, 200, 255, 0.8));
   z-index: 85;
+}
+
+.dolphin-trail {
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(30px, 5vw, 55px);
+  opacity: 0.65;
+  animation: trailFade 2.5s ease-in-out infinite;
 }
 
 .dolphin1 {
   left: 10%;
   animation-delay: 0s;
 }
+
 .dolphin2 {
   left: 50%;
-  animation-delay: 2.5s;
+  animation-delay: 3s;
 }
+
 .dolphin3 {
   left: 80%;
-  animation-delay: 5s;
+  animation-delay: 6s;
 }
 
 @keyframes dolphinJump {
-  0%,
-  100% {
+  0%, 100% {
     transform: translateY(0px) rotate(0deg);
   }
   25% {
-    transform: translateY(-80px) rotate(-20deg);
+    transform: translateY(-120px) rotate(-30deg);
   }
   50% {
-    transform: translateY(-120px) rotate(0deg);
+    transform: translateY(-180px) rotate(0deg);
   }
   75% {
-    transform: translateY(-80px) rotate(20deg);
+    transform: translateY(-120px) rotate(30deg);
   }
 }
 
-/* Swimmers */
+@keyframes trailFade {
+  0%, 100% {
+    opacity: 0.65;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.3);
+  }
+}
+
+/* ========================================
+   SWIMMERS - NUOTATORI
+   ======================================== */
 .swimmer {
   position: absolute;
   top: 48%;
-  font-size: 70px;
-  animation: swimming 6s ease-in-out infinite;
-  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.4));
+  font-size: clamp(50px, 7vw, 85px);
+  animation: swimming 7s ease-in-out infinite;
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.45));
   z-index: 60;
+}
+
+.swimmer-ripple {
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(25px, 4vw, 45px);
+  opacity: 0.55;
+  animation: rippleSpread 2.5s ease-in-out infinite;
 }
 
 .swimmer1 {
   left: 15%;
   animation-delay: 0s;
 }
+
 .swimmer2 {
   left: 60%;
-  animation-delay: 3s;
+  animation-delay: 3.5s;
 }
+
 .swimmer3 {
   left: 35%;
-  animation-delay: 1.5s;
+  animation-delay: 1.8s;
 }
 
 @keyframes swimming {
-  0%,
-  100% {
-    transform: translateX(0px) translateY(0px) rotate(-10deg);
+  0%, 100% {
+    transform: translateX(0px) translateY(0px) rotate(-15deg);
   }
   50% {
-    transform: translateX(40px) translateY(-30px) rotate(10deg);
-  }
-}
-
-/* Sea creatures */
-.sea-creature {
-  position: absolute;
-  font-size: 70px;
-  animation: seaFloat 8s ease-in-out infinite;
-  filter: drop-shadow(0 5px 20px rgba(50, 150, 255, 0.4));
-  z-index: 45;
-}
-
-.octopus {
-  top: 55%;
-  left: 12%;
-  animation-delay: 0s;
-}
-.turtle {
-  top: 60%;
-  right: 18%;
-  animation-delay: 1s;
-  font-size: 80px;
-}
-.fish1 {
-  top: 58%;
-  left: 35%;
-  animation-delay: 2s;
-  font-size: 60px;
-}
-.fish2 {
-  top: 63%;
-  right: 35%;
-  animation-delay: 3s;
-  font-size: 65px;
-}
-.fish3 {
-  top: 68%;
-  left: 50%;
-  animation-delay: 4s;
-  font-size: 75px;
-}
-.squid {
-  top: 56%;
-  left: 65%;
-  animation-delay: 1.5s;
-}
-.jellyfish {
-  top: 62%;
-  right: 55%;
-  animation-delay: 2.5s;
-  font-size: 65px;
-}
-.shark {
-  top: 65%;
-  left: 20%;
-  animation-delay: 3.5s;
-  font-size: 90px;
-}
-.whale {
-  top: 70%;
-  right: 10%;
-  animation-delay: 4.5s;
-  font-size: 100px;
-}
-
-@keyframes seaFloat {
-  0%,
-  100% {
-    transform: translate(0px, 0px) rotate(0deg);
-  }
-  25% {
-    transform: translate(30px, -40px) rotate(10deg);
-  }
-  50% {
-    transform: translate(-20px, -80px) rotate(-10deg);
-  }
-  75% {
-    transform: translate(40px, -40px) rotate(5deg);
-  }
-}
-
-/* Coral */
-.coral {
-  position: absolute;
-  font-size: 100px;
-  animation: coralSway 4s ease-in-out infinite;
-  filter: drop-shadow(0 5px 15px rgba(255, 100, 150, 0.4));
-  z-index: 35;
-}
-
-.coral1 {
-  top: 72%;
-  left: 22%;
-  animation-delay: 0s;
-}
-.coral2 {
-  top: 75%;
-  right: 28%;
-  animation-delay: 2s;
-}
-.coral3 {
-  top: 78%;
-  left: 55%;
-  animation-delay: 1s;
-}
-
-@keyframes coralSway {
-  0%,
-  100% {
-    transform: rotate(-5deg) scale(1);
-  }
-  50% {
-    transform: rotate(5deg) scale(1.05);
-  }
-}
-
-/* Ocean floor items */
-.floor-item {
-  position: absolute;
-  top: 85%;
-  font-size: 80px;
-  animation: floorFloat 4s ease-in-out infinite;
-  filter: drop-shadow(0 5px 20px rgba(100, 200, 255, 0.3));
-  z-index: 40;
-}
-
-.starfish1 {
-  left: 10%;
-  animation-delay: 0s;
-}
-.starfish2 {
-  left: 35%;
-  animation-delay: 1s;
-}
-.shell1 {
-  left: 60%;
-  animation-delay: 2s;
-}
-.shell2 {
-  left: 82%;
-  animation-delay: 1.5s;
-}
-.crab {
-  left: 25%;
-  top: 88%;
-  animation-delay: 0.5s;
-}
-.anchor {
-  left: 70%;
-  top: 90%;
-  font-size: 90px;
-  animation-delay: 2.5s;
-}
-
-@keyframes floorFloat {
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-15px) rotate(10deg);
-  }
-}
-
-.treasure {
-  position: absolute;
-  top: 87%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 100px;
-  animation: treasureGlow 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8));
-  z-index: 50;
-}
-
-@keyframes treasureGlow {
-  0%,
-  100% {
-    transform: translateX(-50%) scale(1);
-    filter: drop-shadow(0 0 40px rgba(255, 215, 0, 0.8));
-  }
-  50% {
-    transform: translateX(-50%) scale(1.2);
-    filter: drop-shadow(0 0 60px rgba(255, 215, 0, 1));
-  }
-}
-
-/* Bottom message */
-.bottom-message {
-  position: absolute;
-  top: 93%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 80px;
-  font-weight: bold;
-  color: #4ecdc4;
-  text-align: center;
-  animation: messageFloat 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 30px rgba(78, 205, 196, 0.8));
-  letter-spacing: 10px;
-  z-index: 90;
-}
-
-@keyframes messageFloat {
-  0%,
-  100% {
-    transform: translateX(-50%) translateY(0px);
-  }
-  50% {
-    transform: translateX(-50%) translateY(-20px);
-  }
-}
-
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  .title {
-    font-size: 70px;
-  }
-  .sun {
-    font-size: 100px;
-  }
-  .seagull {
-    font-size: 35px;
-  }
-  .cloud {
-    font-size: 70px;
-  }
-  .beach-item {
-    font-size: 65px;
-  }
-  .palm-tree {
-    font-size: 90px;
-  }
-  .island-base {
-    width: 300px;
-    height: 140px;
-  }
-  .island-palm {
-    font-size: 80px;
-  }
-  .palm1 {
-    font-size: 100px;
-  }
-  .boat {
-    font-size: 60px;
-  }
-  .surfer {
-    font-size: 55px;
-  }
-  .dolphin {
-    font-size: 60px;
-  }
-  .swimmer {
-    font-size: 55px;
-  }
-  .sea-creature {
-    font-size: 50px;
-  }
-  .turtle {
-    font-size: 60px;
-  }
-  .shark {
-    font-size: 70px;
-  }
-  .whale {
-    font-size: 75px;
-  }
-  .coral {
-    font-size: 70px;
-  }
-  .floor-item {
-    font-size: 60px;
-  }
-  .treasure {
-    font-size: 80px;
-  }
-  .bottom-message {
-    font-size: 50px;
-    letter-spacing: 5px;
-  }
-  .flower {
-    font-size: 45px;
-  }
-}
-
-@media (max-width: 480px) {
-  .summer-scene {
-    min-height: 600vh;
-  }
-  .title {
-    font-size: 45px;
-  }
-  .sun {
-    font-size: 80px;
-  }
-  .seagull {
-    font-size: 28px;
-  }
-  .cloud {
-    font-size: 55px;
-  }
-  .beach-item {
-    font-size: 50px;
-  }
-  .palm-tree {
-    font-size: 70px;
-  }
-  .island-base {
-    width: 240px;
-    height: 110px;
-  }
-  .island-palm {
-    font-size: 65px;
-  }
-  .palm1 {
-    font-size: 80px;
-  }
-  .boat {
-    font-size: 50px;
-  }
-  .surfer {
-    font-size: 45px;
-  }
-  .dolphin {
-    font-size: 50px;
-  }
-  .swimmer {
-    font-size: 45px;
-  }
-  .sea-creature {
-    font-size: 40px;
-  }
-  .turtle {
-    font-size: 50px;
-  }
-  .shark {
-    font-size: 60px;
-  }
-  .whale {
-    font-size: 65px;
-  }
-  .coral {
-    font-size: 60px;
-  }
-  .floor-item {
-    font-size: 50px;
-  }
-  .treasure {
-    font-size: 65px;
-  }
-  .bottom-message {
-    font-size: 36px;
-    letter-spacing: 3px;
-  }
-  .flower {
-    font-size: 40px;
+    transform: translateX(55px) translateY(-40px) rotate(15deg);
   }
 }
