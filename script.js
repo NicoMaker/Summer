@@ -413,3 +413,8 @@ if (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) {
     }
   });
 }
+
+const yearEl = document.getElementById("year");
+if (yearEl) {
+  yearEl.textContent = new Date().getFullYear();
+}
